@@ -3,6 +3,19 @@ from flask import Flask
 # Created Flask object with unique name
 app = Flask(__name__)
 
+stores = [
+    {
+        'name': 'My Wonderful Store',
+        'items': [
+            {
+            'name': 'My item',
+            'price': 15.99
+            }
+        ]
+    }
+]
+
+
 # Created route for application
 # Assigned method a route that returns something
 @app.route('/store', methods=['POST'])
