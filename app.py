@@ -4,10 +4,27 @@ from flask import Flask
 app = Flask(__name__)
 
 # Created route for application
-# Assigned method o route that returns something
-@app.route('/')
-def home():
-    return "Hello, world!"
+# Assigned method a route that returns something
+@app.route('/store', methods=['POST'])
+def create_store():
+    pass
+
+@app.route('/store/<string:name>', methods=['GET'])
+def get_store(name):
+    pass
+
+@app.route('/stores', methods=['GET'])
+def get_stores():
+    pass
+
+@app.route('/store/<string:name>/item', methods=['POST'])
+def create_item_in_store(name):
+    pass
+
+@app.route('/store/<string:name>/item', methods=['GET'])
+def get_item_in_store(name):
+    pass
+
 
 app.run(debug=True)
 
