@@ -1,72 +1,28 @@
-from flask import Flask, jsonify, request
+from flask import Flask
+from flask_restful import Resource, Api
 
-# Created Flask object with unique name
 app = Flask(__name__)
+api = Api(app)
 
-stores = [
+items = [
     {
-        'name': 'My Wonderful Store',
-        'items': [
-            {
-            'name': 'My item',
-            'price': 15.99
-            }
-        ]
+
     }
 ]
 
+class Item(Resource):
+    def get(self, name):
+        for item in items:
+            if item['name'] == name:
+                return item
+            return {'item': None}, 404 # 404 means not found
 
-# Created route for application
-# Assigned method a route that returns something
-@app.route('/store', methods=['POST'])
-def create_store():
-    request_data = request.get_json()
-    new_store = {
-        'name': request_data['name'],
-        'items': []
-    }
-    stores.append(new_store)
-    return jsonify(new_store)
+    def post(self, name):
+        item = {'item': item,
+                'price': 12.00}
+        items.append(item)
+        return item, 201 # 201 means created
 
-
-@app.route('/store/<string:name>', methods=['GET'])
-def get_store(name):
-    for store in stores:
-        if store['name'] == name:
-            return jsonify(store)
-        else:
-            return jsonify({'message': 'Store not found.'})
-
-
-@app.route('/stores', methods=['GET'])
-def get_stores():
-    return jsonify({'stores': stores})
-
-
-@app.route('/store/<string:name>/item', methods=['POST'])
-def create_item_in_store(name):
-    request_data = request.get_json()
-    for store in stores:
-        if store['name'] == name:
-            new_item = {
-                'name': request_data['name'],
-                'price': request_data['price']
-            }
-            store['items'].append(new_item)
-            return jsonify(store)
-        return jsonify({'message': 'Store not found.'})
-
-@app.route('/store/<string:name>/item', methods=['GET'])
-def get_item_in_store(name):
-    for store in stores:
-        if store['name'] == 'name':
-            return jsonify({'items': store['items']})
-        else:
-            return jsonify({'message': 'Store not found.'})
-
+api.add_resource(Item, '/item/<string:name>')
 
 app.run(debug=True)
-
-
-# Rest API's normally return strings
-# Javascript applications display those strings nicely
